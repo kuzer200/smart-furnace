@@ -32,18 +32,11 @@ public class main
 					 //Doesn't print them in the order in which they were added, but that really doesn't matter.
 
 		controller.openGate("bedroom1");
-		controller.printRooms();
 		controller.openGate("bathroom1");
-		controller.printRooms();
 		controller.closeGate("bedroom1");
-		controller.printRooms();
 		controller.closeGate("bathroom1");
-		controller.printRooms();
 		controller.openGate("kitchen");
-		controller.printRooms();
 		controller.openGate("livingroom");
-		controller.printRooms();
 		controller.closeGate("livingroom");
-		controller.printRooms();
 	}
 }

@@ -5,8 +5,6 @@ public class Room
 {
 	private String name;
 	private Thermometer temp;
-	//private double desiredTemp;
-	//private double tolernace;
 	
 	public Room(String name1)
 	{
