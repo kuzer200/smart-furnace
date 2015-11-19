@@ -30,5 +30,13 @@ public class main
 
 		controller.printRooms(); //this goes through the system and prints out every leaf node it comes across.
 					 //Doesn't print them in the order in which they were added, but that really doesn't matter.
+
+		controller.openGate("bedroom1");
+		controller.openGate("bathroom1");
+		controller.closeGate("bedroom1");
+		controller.closeGate("bathroom1");
+		controller.openGate("kitchen");
+		controller.openGate("livingroom");
+		controller.closeGate("livingroom");
 	}
 }

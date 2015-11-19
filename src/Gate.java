@@ -14,20 +14,29 @@ public class Gate
 	{
 		nextJunction = new Junction(id);
 		nextRoom = null;
+		open = false;
 	}
 	
 	public Gate(String name) //constructor for a gate that leads to a room (leaf node)
 	{
 		nextJunction = null;
 		nextRoom = new Room(name);
+		open = false;
 	}
 	
-	public void changeState() //toggles state, same as open = !open
+	public void open()
 	{
-		if (open == true)
-			open = false;
-		else
-			open = true;
+		open = true;
+	}
+
+	public void close()
+	{
+		open = false;
+	}
+
+	public boolean isOpen()
+	{
+		return open;
 	}
 
 	public Room getRoom()

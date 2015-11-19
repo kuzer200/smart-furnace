@@ -102,5 +102,71 @@ public class Furnace
 					printRoomRec(temp.getGate(i));
 		}
 	}
+
+	public void openGate(String name) //opens a gate
+	{
+		openGateRec(name, firstGate);
+	}
+
+	public boolean openGateRec(String name, Gate g)
+	{
+		if (g.getRoom() != null && g.getRoom().getName() == name) //if we find the room, open the gate
+		{
+			g.open();
+			System.out.println("Opened gate to room " + name);
+			return true; //make sure we tell the gate leading to the junction before the room that we found it
+		}
+		else if (g.getJunction() != null)
+		{
+			Junction temp = g.getJunction(); //otherwise, check the system for the room.
+			
+			for (int i = 0; i < temp.getNumOfGates(); i++)
+					if (openGateRec(name, temp.getGate(i))) //if we opened a gate, we need to make a path to the furnace
+					{
+						g.open();
+						System.out.println("Opened gate to junction " + temp.getId());
+						return true;
+					}
+		}
+
+		return false;
+	}
+
+	public void closeGate(String name) //closes a gate
+	{
+		closeGateRec(name, firstGate);
+	}
+
+	public boolean closeGateRec(String name, Gate g)
+	{
+		if (g.getRoom() != null && g.getRoom().getName() == name) //if we find the room, close the gate
+		{
+			g.close();
+			System.out.println("Closed gate to room " + name);
+			return true; //make sure we tell the gate leading to the junction before the room that we found it
+		}
+		else if (g.getJunction() != null)
+		{
+			Junction temp = g.getJunction(); //otherwise, check the system for the room.
+			boolean allGatesAreClosed = true;
+			
+			for (int i = 0; i < temp.getNumOfGates(); i++)
+					if (closeGateRec(name, temp.getGate(i))) //if we opened a gate, we need to make a path to the furnace
+					{
+						for (int j = 0; j < temp.getNumOfGates(); j++)
+							if (temp.getGate(j).isOpen())
+								allGatesAreClosed = false;
+
+						if (allGatesAreClosed)
+						{
+							System.out.println("All gates at junction " + temp.getId() + " are closed, closing gate leading to junction");
+							g.close();				
+						}
+						return true;
+					}
+		}
+
+		return false;
+	}
 	
 };
