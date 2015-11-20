@@ -24,12 +24,12 @@ public class Gate
 		open = false;
 	}
 	
-	public void open()
+	public void setOpen()
 	{
 		open = true;
 	}
 
-	public void close()
+	public void setClose()
 	{
 		open = false;
 	}

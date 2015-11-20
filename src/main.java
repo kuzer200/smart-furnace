@@ -1,49 +1,67 @@
 //quick driver to make sure the Controller object is working.
 
 //TODO: 
-//- implement gate opening/closing functionality.
-//If we're opening the gate to a room, we have to open up every gate that leads to the room.
-//If we're closing the gate to a room, we have to close only the gate leading directly to that room.
-//If we close a gate and every gate at that junction is closed, we should also close the gate to that junction.
-//
-//- implement input from a config file so we don't have to hardcode addJunction and addRoom functions.
+// -implement the UI
 
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class main
 {
 	public static void main (String[] args)
 	{
-		Furnace controller = new Furnace(); 	//eventually, we should move the furnace to its own object
-							//and replace it with a Controller object that implements an interface.
-							//Shouldn't be too hard, just a few name changes.
-		controller.addJunction(0, 1);
-		controller.addJunction(1, 2);
-		controller.addJunction(1, 3);
-		controller.addRoom(2, "bedroom1");
-		controller.addRoom(2, "bathroom1");
-		controller.addJunction(3, 6);
-		controller.addRoom(3, "kitchen");
-		controller.addRoom(3, "laundryroom");
-		controller.addRoom(6, "livingroom");
-		controller.addRoom(6, "bathroom2"); //this builds our system
+		Controller controller = new Controller(); 
 
-		controller.printRooms(); //this goes through the system and prints out every leaf node it comes across.
-					 //Doesn't print them in the order in which they were added, but that really doesn't matter.
+		Scanner input;
 
-		controller.openGate("bedroom1");
-		controller.printRooms();
-		controller.openGate("bathroom1");
-		controller.printRooms();
-		controller.closeGate("bedroom1");
-		controller.printRooms();
-		controller.closeGate("bathroom1");
-		controller.printRooms();
-		controller.openGate("kitchen");
-		controller.printRooms();
-		controller.openGate("livingroom");
-		controller.printRooms();
-		controller.closeGate("livingroom");
-		controller.printRooms();
+		try
+		{
+			input = new Scanner(new File("vent.txt"));
+    		}
+
+    		catch (Exception e)
+		{
+        		System.out.println("ERROR: File not found.");
+			return;
+    		}
+
+		int p = 0;
+		int c = 0;
+		String room = "";
+		
+		while (input.hasNext())
+		{
+			p = input.nextInt();
+
+			if (input.hasNextInt())
+			{     
+				c = input.nextInt();
+				controller.addJunction(p, c);
+
+		        }
+			else
+			{
+				room = input.next();
+				controller.addRoom(p, room);
+
+			}
+
+		}
+
+		controller.debug_printRooms(); //this goes through the system and debug_prints out every leaf node it comes across.
+					 //Doesn't debug_print them in the order in which they were added, but that really doesn't matter.
+
+		controller.setDesiredRoomTemp("bedroom1", 21, 1);
+		controller.setDesiredRoomTemp("kitchen", 21.5, 0.4);
+		controller.setDesiredRoomTemp("laundryroom", 20, 2);
+		controller.setDesiredRoomTemp("bathroom2", 21, 1);
+
+		controller.check(22);
+		controller.debug_printRooms();
+
+		System.out.println("bedroom1: " + controller.getRoomInfo("bedroom1", "temperature") + " " + controller.getRoomInfo("bedroom1", "desiredtemp") + " " + controller.getRoomInfo("bedroom1", "tolerance") + " " + controller.getRoomInfo("bedroom1", "invalid"));
+
+
 	}
 }

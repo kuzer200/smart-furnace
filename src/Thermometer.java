@@ -19,13 +19,23 @@ public class Thermometer
 		temperature = temp1;
 	}
 
-	public int checkTemp (double temp1) //3 is the tolerance level - the number 3 is arbitrary, and should probably be defined by the system.  I just chose it to demonstrate how the function should work
+	public int checkTemp (double desiredTemp, double tolerance)
 	{
-		if (temperature < temp1 - 3)
+		if (temperature < desiredTemp - tolerance)
 			return -1;
-		else if (temperature > temp1 + 3)
+		else if (temperature > desiredTemp + tolerance)
 			return 1;
 		else
 			return 0;
+	}
+
+	public void increment(double num)
+	{
+		temperature += num;
 	}	
+
+	public void decrement(double num)
+	{
+		temperature -= num;
+	}
 };
